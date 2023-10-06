@@ -1,30 +1,22 @@
-import { useState } from "react";
+import { CONTEXT } from "@/libs/constants";
+import { useContext } from "react";
+import styles from "./Palette.module.scss";
 
 export default function Palette() {
-  const [selectedColor, setSelectedColor] = useState("#000000");
-
+  const { color, setColor } = useContext(CONTEXT);
   const handleColorChange = (event: any) => {
-    setSelectedColor(event.target.value);
+    setColor(event.target.value);
   };
 
   return (
-    <div>
-      <label htmlFor="colorPicker">Выберите цвет:</label>
+    <div className={styles.palette__wrapper}>
+      <label htmlFor="colorPicker">Select color:</label>
       <input
         type="color"
         id="colorPicker"
-        value={selectedColor}
+        value={color}
         onChange={handleColorChange}
       />
-      <div
-        style={{
-          width: "50px",
-          height: "50px",
-          backgroundColor: selectedColor,
-          marginTop: "10px",
-        }}
-      ></div>
-      <p>Выбранный цвет: {selectedColor}</p>
     </div>
   );
 }

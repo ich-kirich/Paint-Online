@@ -9,16 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.12",
+    "@mui/material": "^5.14.12",
+    "@mui/styled-engine-sc": "^5.14.12",
     "@types/node": "20.7.1",
     "@types/react": "18.2.23",
     "@types/react-dom": "18.2.8",
     "canvas": "^2.11.2",
+    "classnames": "^2.3.2",
     "eslint-config-next": "13.5.3",
     "konva": "^9.2.1",
     "next": "13.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-konva": "^18.2.10",
+    "styled-components": "^5.3.11",
     "typescript": "5.2.2"
   },
   "devDependencies": {
