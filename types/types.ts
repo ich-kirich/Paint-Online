@@ -8,4 +8,6 @@ export interface IContext {
   setColor: Function;
   drawMode: string;
   setDrawMode: Function;
+  scale: number;
+  setScale: Function;
 }
