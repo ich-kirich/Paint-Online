@@ -4,6 +4,7 @@ import classnames from "classnames";
 import CreateIcon from "@mui/icons-material/Create";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import styles from "./DrawMode.module.scss";
+import { Box } from "@mui/material";
 
 export default function DrawMode() {
   const { drawMode, setDrawMode } = useContext(CONTEXT);
@@ -13,7 +14,7 @@ export default function DrawMode() {
   };
 
   return (
-    <div className="toolbar">
+    <Box>
       <CreateIcon
         width="16"
         height="16"
@@ -32,6 +33,6 @@ export default function DrawMode() {
         )}
         onClick={onChangeMode(MODE.LINE)}
       />
-    </div>
+    </Box>
   );
 }

@@ -1,6 +1,5 @@
 .zoom__wrapper {
   display: flex;
-  gap: 5px;
   align-items: center;
   flex-direction: column;
   border: 1px solid #000;
@@ -9,16 +8,11 @@
 
 .zoom__btn {
   cursor: pointer;
-  line-height: 20px;
-  font-size: 15px;
-  height: 20px;
-  width: 35px;
-  text-align: center;
 }
 
 .zoom__value {
+  padding: 5px 5px;
   font-size: 15px;
-  padding: 5px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
 }

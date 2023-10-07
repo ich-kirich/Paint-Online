@@ -1,8 +1,9 @@
-import { CONTEXT, MODE } from "@/libs/constants";
+import { CONTEXT, MODE, SIZE_HOLST } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
 import { ILines } from "@/types/types";
 import { useContext, useRef, useState } from "react";
 import { Stage, Layer, Line } from "react-konva";
+import Konva from "konva";
 import styles from "./Holst.module.scss";
 
 export default function Holst() {
@@ -11,14 +12,14 @@ export default function Holst() {
   const [lines, setLines] = useState<ILines[]>([]);
   const isDrawing = useRef(false);
 
-  const handleMouseDown = (e: any) => {
+  const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = e.target.getStage();
     const { x, y } = getScaledPoint(stage, scale);
     isDrawing.current = true;
     setCurrentLine({ points: [x, y], color });
   };
 
-  const handleMouseMove = (e: any) => {
+  const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
     if (!isDrawing.current) {
       return;
     }
@@ -56,15 +57,15 @@ export default function Holst() {
   return (
     <div>
       <Stage
-        width={600 * scale}
-        height={600 * scale}
+        width={SIZE_HOLST.WIDTH * scale}
+        height={SIZE_HOLST.HEIGHT * scale}
         onMouseDown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
         className={styles.main__holst}
       >
         <Layer>
-          {lines.map((line: any, i: number) => (
+          {lines.map((line: ILines, i: number) => (
             <Line
               key={i}
               scale={{ x: scale, y: scale }}

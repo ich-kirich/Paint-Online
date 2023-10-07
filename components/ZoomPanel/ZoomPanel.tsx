@@ -1,6 +1,8 @@
 import { CONTEXT } from "@/libs/constants";
 import { Box } from "@mui/material";
 import { useCallback, useContext } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import styles from "./ZoomPanel.module.scss";
 
 export default function ZoomPanel() {
@@ -20,11 +22,11 @@ export default function ZoomPanel() {
   return (
     <Box className={styles.zoom__wrapper}>
       <Box className={styles.zoom__btn} onClick={zoomIn}>
-        +
+        <AddIcon />
       </Box>
       <Box className={styles.zoom__value}>{scale * 100}%</Box>
       <Box className={styles.zoom__btn} onClick={zoomOut}>
-        -
+        <RemoveIcon />
       </Box>
     </Box>
   );
