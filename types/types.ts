@@ -10,4 +10,8 @@ export interface IContext {
   setDrawMode: Function;
   scale: number;
   setScale: Function;
+  width: number;
+  setWidth: Function;
+  height: number;
+  setHeight: Function;
 }

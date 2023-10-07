@@ -1,4 +1,4 @@
-import { CONTEXT, MODE, SIZE_HOLST } from "@/libs/constants";
+import { CONTEXT, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
 import { ILines } from "@/types/types";
 import { useContext, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import Konva from "konva";
 import styles from "./Holst.module.scss";
 
 export default function Holst() {
-  const { color, drawMode, scale } = useContext(CONTEXT);
+  const { color, drawMode, scale, width, height } = useContext(CONTEXT);
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
   const [lines, setLines] = useState<ILines[]>([]);
   const isDrawing = useRef(false);
@@ -57,8 +57,8 @@ export default function Holst() {
   return (
     <div>
       <Stage
-        width={SIZE_HOLST.WIDTH * scale}
-        height={SIZE_HOLST.HEIGHT * scale}
+        width={width * scale}
+        height={height * scale}
         onMouseDown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}

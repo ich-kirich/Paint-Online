@@ -1,5 +1,6 @@
 import DrawMode from "../DrawMode/DrawMode";
 import Palette from "../Palette/Palette";
+import SizeHolst from "../SizeHolst/SizeHolst";
 import ZoomPanel from "../ZoomPanel/ZoomPanel";
 import styles from "./DrawPanel.module.scss";
 
@@ -9,6 +10,7 @@ export default function DrawPanel() {
       <Palette />
       <DrawMode />
       <ZoomPanel />
+      <SizeHolst />
     </div>
   );
 }
