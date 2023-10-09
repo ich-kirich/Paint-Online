@@ -1,4 +1,4 @@
-import { CONTEXT, MODE } from "@/libs/constants";
+import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
 import { ILines } from "@/types/types";
 import { useContext, useRef, useState } from "react";
@@ -7,7 +7,8 @@ import Konva from "konva";
 import styles from "./Holst.module.scss";
 
 export default function Holst() {
-  const { color, drawMode, scale, width, height } = useContext(CONTEXT);
+  const { color, drawMode, scale, width, height, thickness } =
+    useContext(CONTEXT);
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
   const [lines, setLines] = useState<ILines[]>([]);
   const isDrawing = useRef(false);
@@ -16,7 +17,7 @@ export default function Holst() {
     const stage = e.target.getStage();
     const { x, y } = getScaledPoint(stage, scale);
     isDrawing.current = true;
-    setCurrentLine({ points: [x, y], color });
+    setCurrentLine({ points: [x, y], color, thickness, eraser: DEFAULT_ERASER });
   };
 
   const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
@@ -38,6 +39,13 @@ export default function Holst() {
           setCurrentLine({
             ...currentLine,
             points: [x0, y0, x, y],
+          });
+          break;
+        case MODE.ERASER:
+          currentLine.eraser = true;
+          setCurrentLine({
+            ...currentLine,
+            points: [...currentLine.points, x, y],
           });
           break;
         default:
@@ -71,19 +79,21 @@ export default function Holst() {
               scale={{ x: scale, y: scale }}
               points={line.points}
               stroke={line.color}
-              strokeWidth={2}
+              strokeWidth={line.thickness}
               tension={0.5}
               lineCap="round"
+              globalCompositeOperation={line.eraser? 'destination-out' : 'source-over'}
             />
           ))}
           {currentLine && (
             <Line
               scale={{ x: scale, y: scale }}
               points={currentLine.points}
-              strokeWidth={2}
+              strokeWidth={currentLine.thickness}
               stroke={currentLine.color}
               tension={0.5}
               lineCap="round"
+              globalCompositeOperation={currentLine.eraser ? 'destination-out' : 'source-over'}
             />
           )}
         </Layer>

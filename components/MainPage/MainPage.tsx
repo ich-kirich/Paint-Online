@@ -2,6 +2,7 @@ import {
   CONTEXT,
   DEFAULT_COLOR,
   DEFAULT_SIZE_HOLST,
+  DEFAULT_THICKNESS,
   MODE,
 } from "@/libs/constants";
 import { useState, useMemo } from "react";
@@ -22,6 +23,8 @@ export default function MainPage() {
     setSelectedScale(selectedScale + delta);
   };
 
+  const [selectedThickness, setSelectedThickness] = useState(DEFAULT_THICKNESS);
+
   const contextValue = useMemo(
     () => ({
       color: selectedColor,
@@ -34,6 +37,8 @@ export default function MainPage() {
       setWidth: setSelectedWidth,
       height: selectedHeight,
       setHeight: setSelectedHeight,
+      thickness: selectedThickness,
+      setThickness: setSelectedThickness,
     }),
     [
       selectedColor,
@@ -46,6 +51,8 @@ export default function MainPage() {
       setSelectedWidth,
       selectedHeight,
       setSelectedHeight,
+      selectedThickness,
+      setSelectedThickness,
     ],
   );
   return (

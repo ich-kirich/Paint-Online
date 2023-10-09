@@ -1,6 +1,8 @@
 export interface ILines {
   points: number[];
   color: string;
+  thickness: number;
+  eraser: boolean;
 }
 
 export interface IContext {
@@ -14,4 +16,6 @@ export interface IContext {
   setWidth: Function;
   height: number;
   setHeight: Function;
+  thickness: number;
+  setThickness: Function;
 }

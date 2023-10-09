@@ -5,6 +5,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import styles from "./DrawMode.module.scss";
 import { Box } from "@mui/material";
+import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
 
 export default function DrawMode() {
   const { drawMode, setDrawMode } = useContext(CONTEXT);
@@ -32,6 +33,15 @@ export default function DrawMode() {
           {},
         )}
         onClick={onChangeMode(MODE.LINE)}
+      />
+      <FormatColorResetIcon
+        width="16"
+        height="16"
+        className={classnames(
+          { [styles.mode__choose]: drawMode === MODE.ERASER },
+          {},
+        )}
+        onClick={onChangeMode(MODE.ERASER)}
       />
     </Box>
   );
