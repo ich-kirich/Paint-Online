@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Line } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
+import { Box } from "@mui/material";
 
 export default function Holst() {
   const { color, drawMode, scale, width, height, thickness } =
@@ -71,7 +72,7 @@ export default function Holst() {
   };
 
   return (
-    <div>
+    <Box className={styles.main__holstWrapper}>
       <Stage
         width={width * scale}
         height={height * scale}
@@ -111,6 +112,6 @@ export default function Holst() {
           )}
         </Layer>
       </Stage>
-    </div>
+    </Box>
   );
 }

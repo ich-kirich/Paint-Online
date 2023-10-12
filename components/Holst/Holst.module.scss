@@ -1,4 +1,9 @@
+.main__holstWrapper {
+  max-width: 100%;
+}
+
 .main__holst {
   border: 1px solid #000;
   background-color: #fff;
+  overflow: auto;
 }
