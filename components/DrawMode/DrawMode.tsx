@@ -3,9 +3,10 @@ import { useContext } from "react";
 import classnames from "classnames";
 import CreateIcon from "@mui/icons-material/Create";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import styles from "./DrawMode.module.scss";
 import { Box } from "@mui/material";
 import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
+import ColorizeIcon from "@mui/icons-material/Colorize";
+import styles from "./DrawMode.module.scss";
 
 export default function DrawMode() {
   const { drawMode, setDrawMode } = useContext(CONTEXT);
@@ -15,12 +16,13 @@ export default function DrawMode() {
   };
 
   return (
-    <Box>
+    <Box className={styles.mode__wrapper}>
       <CreateIcon
         width="16"
         height="16"
         onClick={onChangeMode(MODE.PENCIL)}
         className={classnames(
+          styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.PENCIL },
           {},
         )}
@@ -29,6 +31,7 @@ export default function DrawMode() {
         width="16"
         height="16"
         className={classnames(
+          styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.LINE },
           {},
         )}
@@ -38,10 +41,21 @@ export default function DrawMode() {
         width="16"
         height="16"
         className={classnames(
+          styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.ERASER },
           {},
         )}
         onClick={onChangeMode(MODE.ERASER)}
+      />
+      <ColorizeIcon
+        width="16"
+        height="16"
+        className={classnames(
+          styles.mode__tile,
+          { [styles.mode__choose]: drawMode === MODE.PIPETTE },
+          {},
+        )}
+        onClick={onChangeMode(MODE.PIPETTE)}
       />
     </Box>
   );

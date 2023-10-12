@@ -20,13 +20,14 @@ export const DEFAULT_COLORS = {
   GREEN: "#2ECC40",
   BLACK: "#000",
   YELLOW: "#FFDC00",
-  WHITE: "#FFFFFF"
+  WHITE: "#FFFFFF",
 };
 
 export const MODE = {
   PENCIL: "pencil",
   LINE: "line",
   ERASER: "eraser",
+  PIPETTE: "pipette",
 };
 
 export const CONTEXT = React.createContext({} as IContext);

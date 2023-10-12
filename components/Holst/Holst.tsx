@@ -1,18 +1,20 @@
 import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
 import { ILines } from "@/types/types";
-import { useContext, useEffect, useRef, useState } from "react";
-import { Stage, Layer, Line } from "react-konva";
+import { useContext, useRef, useState } from "react";
+import { Stage, Layer, Line, Rect } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
+import rgbHex from "rgb-hex";
 
 export default function Holst() {
-  const { color, drawMode, scale, width, height, thickness } =
+  const { color, setColor, drawMode, scale, width, height, thickness } =
     useContext(CONTEXT);
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
   const [lines, setLines] = useState<ILines[]>([]);
   const isDrawing = useRef(false);
+  const layerRef = useRef<Konva.Layer>(null);
 
   const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = e.target.getStage();
@@ -24,6 +26,15 @@ export default function Holst() {
       thickness,
       eraser: DEFAULT_ERASER,
     });
+    if (drawMode === MODE.PIPETTE && layerRef.current) {
+      const pointerPosition = stage!.getPointerPosition();
+      const layer = layerRef.current;
+      const pixel = layer
+        .getContext()
+        .getImageData(pointerPosition!.x, pointerPosition!.y, 1, 1).data;
+      const rgbColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      setColor(`#${rgbHex(rgbColor)}`);
+    }
   };
 
   const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
@@ -82,7 +93,12 @@ export default function Holst() {
         onMouseLeave={handleMouseUp}
         className={styles.main__holst}
       >
-        <Layer>
+        <Layer ref={layerRef}>
+          <Rect
+            width={width * scale}
+            height={height * scale}
+            fill="white"
+          />
           {lines.map((line: ILines, i: number) => (
             <Line
               key={i}
