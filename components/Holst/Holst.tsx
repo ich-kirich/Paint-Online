@@ -1,7 +1,7 @@
 import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
 import { ILines } from "@/types/types";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Line } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
@@ -26,6 +26,9 @@ export default function Holst() {
   };
 
   const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
+    if (e.evt.buttons === 1 || e.evt.buttons === 2) {
+      handleMouseDown(e);
+    }
     if (!isDrawing.current) {
       return;
     }
@@ -75,6 +78,7 @@ export default function Holst() {
         onMouseDown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
+        onMouseLeave={handleMouseUp}
         className={styles.main__holst}
       >
         <Layer>
