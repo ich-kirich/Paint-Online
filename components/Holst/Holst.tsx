@@ -17,7 +17,12 @@ export default function Holst() {
     const stage = e.target.getStage();
     const { x, y } = getScaledPoint(stage, scale);
     isDrawing.current = true;
-    setCurrentLine({ points: [x, y], color, thickness, eraser: DEFAULT_ERASER });
+    setCurrentLine({
+      points: [x, y],
+      color,
+      thickness,
+      eraser: DEFAULT_ERASER,
+    });
   };
 
   const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
@@ -82,7 +87,9 @@ export default function Holst() {
               strokeWidth={line.thickness}
               tension={0.5}
               lineCap="round"
-              globalCompositeOperation={line.eraser? 'destination-out' : 'source-over'}
+              globalCompositeOperation={
+                line.eraser ? "destination-out" : "source-over"
+              }
             />
           ))}
           {currentLine && (
@@ -93,7 +100,9 @@ export default function Holst() {
               stroke={currentLine.color}
               tension={0.5}
               lineCap="round"
-              globalCompositeOperation={currentLine.eraser ? 'destination-out' : 'source-over'}
+              globalCompositeOperation={
+                currentLine.eraser ? "destination-out" : "source-over"
+              }
             />
           )}
         </Layer>

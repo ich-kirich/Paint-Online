@@ -12,6 +12,15 @@ export const DEFAULT_SIZE_HOLST = {
   HEIGHT: 600,
 };
 
+export const DEFAULT_COLORS = {
+  RED: "#FF4136",
+  BLUE: "#0074D9",
+  GREEN: "#2ECC40",
+  BLACK: "#000",
+  YELLOW: "#FFDC00",
+  WHITE: "#FFFFFF"
+};
+
 export const MODE = {
   PENCIL: "pencil",
   LINE: "line",
