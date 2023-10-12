@@ -16,6 +16,7 @@ export default function BasicColors() {
       setDrawMode(MODE.PENCIL);
     }
   };
+
   return (
     <Box className={styles.basic__wrapper}>
       <Box

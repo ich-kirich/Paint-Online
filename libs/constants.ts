@@ -3,6 +3,8 @@ import React from "react";
 
 export const DEFAULT_COLOR = "#000000";
 
+export const USER_DEFAULT_COLOR = "#FFFFFF";
+
 export const DEFAULT_THICKNESS = 2;
 
 export const DEFAULT_ERASER = false;

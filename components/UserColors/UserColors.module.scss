@@ -1,0 +1,39 @@
+.colors__wrapper {
+  display: flex;
+}
+
+.colors__btn {
+  align-self: center;
+  background-color: black;
+}
+
+.colors__item {
+  display: flex;
+  gap: 5px;
+}
+
+.colors__popup {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 180px;
+  padding: 30px;
+}
+
+.color__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.color__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 calc(50% - 15px);
+  margin: 5px;
+  width: 5px;
+  height: 18px;
+  border: 1px solid #000;
+  cursor: pointer;
+}
