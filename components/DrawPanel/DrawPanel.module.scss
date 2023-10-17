@@ -6,3 +6,24 @@
   border: 1px solid #000;
   background-color: #fdefef;
 }
+
+.panel__back {
+  cursor: pointer;
+}
+
+.mode__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 calc(33.333% - 15px);
+  margin: 5px;
+  cursor: pointer;
+}
+
+.mode__choose {
+  outline: 1px solid #000;
+}
+
+.mode__wrapper {
+  display: flex;
+}

@@ -1,4 +1,6 @@
-export default function getScaledPoint(stage: any, scale: any) {
-  const { x, y } = stage.getPointerPosition();
+import Konva from "konva";
+
+export default function getScaledPoint(stage: Konva.Stage, scale: number) {
+  const { x, y } = stage.getPointerPosition()!;
   return { x: x / scale, y: y / scale };
-};
+}

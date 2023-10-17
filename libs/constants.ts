@@ -5,9 +5,11 @@ export const DEFAULT_COLOR = "#000000";
 
 export const USER_DEFAULT_COLOR = "#FFFFFF";
 
-export const DEFAULT_THICKNESS = 2;
+export const DEFAULT_THICKNESS = 8;
 
 export const DEFAULT_ERASER = false;
+
+export const DEFAULT_TEXT = "Text";
 
 export const DEFAULT_SIZE_HOLST = {
   WIDTH: 600,
@@ -28,6 +30,23 @@ export const MODE = {
   LINE: "line",
   ERASER: "eraser",
   PIPETTE: "pipette",
+  TEXT: "text",
+};
+
+export const MODE_PANEL = {
+  MAIN: "main",
+  TEXT: "text",
+};
+
+export const FONT_FAMILY = {
+  ARIAL: "Arial",
+  CALIBRI: "Calibri",
+  TIMES_NEW_ROMAN: "Times New Roman",
+  GEORGIA: "Georgia",
+  VERDANA: "Verdana",
+  TAHOMA: "Tahoma",
+  IMPACT: "Impact",
+  PALATINO: "Palatino"
 };
 
 export const CONTEXT = React.createContext({} as IContext);

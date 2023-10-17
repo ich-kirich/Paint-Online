@@ -1,12 +1,12 @@
 import { CONTEXT } from "@/libs/constants";
+import { IThicknessProps } from "@/types/types";
 import { Typography, Slider, Box, Button, Popover } from "@mui/material";
 import { useContext, useState } from "react";
-import styles from "./ThicknessLine.module.scss";
+import styles from "./Thickness.module.scss";
 
-export default function ThicknessLine() {
+export default function Thickness(props: IThicknessProps) {
+  const { minValue, maxValue } = props;
   const { thickness, setThickness } = useContext(CONTEXT);
-  const minValue = 1;
-  const maxValue = 100;
   const step = 1;
 
   const handleChange = (e: Event, newValue: number | number[]) => {
@@ -49,7 +49,7 @@ export default function ThicknessLine() {
       >
         <Box className={styles.thickness__popup}>
           <Slider
-            value={thickness}
+            value={thickness < minValue || thickness > maxValue ? setThickness(minValue) : thickness}
             onChange={handleChange}
             valueLabelDisplay="auto"
             min={minValue}

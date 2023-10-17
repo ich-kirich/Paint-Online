@@ -2,8 +2,11 @@ import {
   CONTEXT,
   DEFAULT_COLOR,
   DEFAULT_SIZE_HOLST,
+  DEFAULT_TEXT,
   DEFAULT_THICKNESS,
+  FONT_FAMILY,
   MODE,
+  MODE_PANEL,
 } from "@/libs/constants";
 import { useState, useMemo } from "react";
 import DrawPanel from "../DrawPanel/DrawPanel";
@@ -18,12 +21,19 @@ export default function MainPage() {
   const [selectedWidth, setSelectedWidth] = useState(DEFAULT_SIZE_HOLST.WIDTH);
   const [selectedScale, setSelectedScale] = useState(1);
   const [selectedDrawMode, setSelectedDrawMode] = useState(MODE.PENCIL);
+  const [selectedModePanel, setSelectedModePanel] = useState(MODE_PANEL.MAIN);
+  const [selectedThickness, setSelectedThickness] = useState(DEFAULT_THICKNESS);
+  const [inputText, setInputText] = useState(DEFAULT_TEXT);
+  const [selectedFontFamily, setSelectedFontFamily] = useState(
+    FONT_FAMILY.ARIAL,
+  );
+  const [isCrossText, setIsCrossText] = useState(false);
+  const [isItalics, setIsItalics] = useState(false);
+  const [isBold, setIsBold] = useState(false);
 
   const onChangeScale = (delta: number) => {
     setSelectedScale(selectedScale + delta);
   };
-
-  const [selectedThickness, setSelectedThickness] = useState(DEFAULT_THICKNESS);
 
   const contextValue = useMemo(
     () => ({
@@ -39,6 +49,18 @@ export default function MainPage() {
       setHeight: setSelectedHeight,
       thickness: selectedThickness,
       setThickness: setSelectedThickness,
+      modePanel: selectedModePanel,
+      setModePanel: setSelectedModePanel,
+      text: inputText,
+      setText: setInputText,
+      fontFamily: selectedFontFamily,
+      setFontFamily: setSelectedFontFamily,
+      isCrossText,
+      setIsCrossText,
+      isItalics,
+      setIsItalics,
+      isBold,
+      setIsBold,
     }),
     [
       selectedColor,
@@ -53,6 +75,18 @@ export default function MainPage() {
       setSelectedHeight,
       selectedThickness,
       setSelectedThickness,
+      selectedModePanel,
+      setSelectedModePanel,
+      inputText,
+      setInputText,
+      selectedFontFamily,
+      setSelectedFontFamily,
+      isCrossText,
+      setIsCrossText,
+      isItalics,
+      setIsItalics,
+      isBold,
+      setIsBold,
     ],
   );
   return (

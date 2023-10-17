@@ -1,39 +1,73 @@
 import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
-import { ILines } from "@/types/types";
+import { IDrawElement, ILines, IText } from "@/types/types";
 import { useContext, useRef, useState } from "react";
-import { Stage, Layer, Line, Rect } from "react-konva";
+import { Stage, Layer, Rect, Group, Text, Line } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
 import rgbHex from "rgb-hex";
+import DrawLines from "../DrawLines/DrawLines";
+import DrawText from "../DrawText/DrawText";
 
 export default function Holst() {
-  const { color, setColor, drawMode, scale, width, height, thickness } =
-    useContext(CONTEXT);
+  const {
+    color,
+    setColor,
+    drawMode,
+    scale,
+    width,
+    height,
+    thickness,
+    text,
+    fontFamily,
+    isCrossText,
+    isItalics,
+    isBold,
+  } = useContext(CONTEXT);
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
-  const [lines, setLines] = useState<ILines[]>([]);
+  const [currentText, setCurrentText] = useState<IText | null>(null);
+  const [drawElements, setDrawElements] = useState<IDrawElement[]>([]);
   const isDrawing = useRef(false);
   const layerRef = useRef<Konva.Layer>(null);
 
   const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
-    const stage = e.target.getStage();
+    const stage = e.target.getStage()!;
     const { x, y } = getScaledPoint(stage, scale);
     isDrawing.current = true;
-    setCurrentLine({
-      points: [x, y],
-      color,
-      thickness,
-      eraser: DEFAULT_ERASER,
-    });
+    if (
+      drawMode === MODE.LINE ||
+      drawMode === MODE.PENCIL ||
+      drawMode === MODE.ERASER
+    ) {
+      setCurrentLine({
+        points: [x, y],
+        color,
+        thickness,
+        eraser: DEFAULT_ERASER,
+      });
+    }
     if (drawMode === MODE.PIPETTE && layerRef.current) {
-      const pointerPosition = stage!.getPointerPosition();
+      const pointerPosition = stage.getPointerPosition();
       const layer = layerRef.current;
       const pixel = layer
         .getContext()
         .getImageData(pointerPosition!.x, pointerPosition!.y, 1, 1).data;
       const rgbColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
       setColor(`#${rgbHex(rgbColor)}`);
+    }
+    if (drawMode === MODE.TEXT) {
+      isDrawing.current = true;
+      setCurrentText({
+        points: [x, y],
+        content: text,
+        color,
+        fontSize: thickness,
+        fontFamily,
+        isCrossText,
+        isItalics,
+        isBold,
+      });
     }
   };
 
@@ -44,7 +78,7 @@ export default function Holst() {
     if (!isDrawing.current) {
       return;
     }
-    const stage = e.target.getStage();
+    const stage = e.target.getStage()!;
     const { x, y } = getScaledPoint(stage, scale);
     if (currentLine) {
       switch (drawMode) {
@@ -68,6 +102,14 @@ export default function Holst() {
             points: [...currentLine.points, x, y],
           });
           break;
+        case MODE.TEXT:
+          if (currentText) {
+            setCurrentText({
+              ...currentText,
+              points: [...currentText.points, x, y],
+            });
+          }
+          break;
         default:
           return;
       }
@@ -77,9 +119,25 @@ export default function Holst() {
   const handleMouseUp = () => {
     isDrawing.current = false;
     if (currentLine) {
-      setLines([...lines, { ...currentLine, points: [...currentLine.points] }]);
+      setDrawElements([
+        ...drawElements,
+        {
+          type: "line",
+          content: { ...currentLine, points: [...currentLine.points] },
+        },
+      ]);
+      setCurrentLine(null);
     }
-    setCurrentLine(null);
+    if (currentText) {
+      setDrawElements([
+        ...drawElements,
+        {
+          type: "text",
+          content: { ...currentText, points: [...currentText.points] },
+        },
+      ]);
+      setCurrentText(null);
+    }
   };
 
   return (
@@ -94,25 +152,28 @@ export default function Holst() {
         className={styles.main__holst}
       >
         <Layer ref={layerRef}>
-          <Rect
-            width={width * scale}
-            height={height * scale}
-            fill="white"
-          />
-          {lines.map((line: ILines, i: number) => (
-            <Line
-              key={i}
-              scale={{ x: scale, y: scale }}
-              points={line.points}
-              stroke={line.color}
-              strokeWidth={line.thickness}
-              tension={0.5}
-              lineCap="round"
-              globalCompositeOperation={
-                line.eraser ? "destination-out" : "source-over"
-              }
-            />
+          <Rect width={width * scale} height={height * scale} fill="white" />
+          {drawElements.map((item: IDrawElement, i: number) => (
+            <Group key={i}>
+              {item.type === "line" ? (
+                <DrawLines line={item.content as ILines} />
+              ) : (
+                <DrawText text={item.content as IText} />
+              )}
+            </Group>
           ))}
+          {currentText && (
+            <Text
+              text={currentText.content}
+              points={currentText.points}
+              x={currentText.points[0]}
+              y={currentText.points[1]}
+              fontSize={currentText.fontSize}
+              fontFamily={currentText.fontFamily}
+              fill={currentText.color}
+              draggable
+            />
+          )}
           {currentLine && (
             <Line
               scale={{ x: scale, y: scale }}
