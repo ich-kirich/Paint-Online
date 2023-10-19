@@ -1,14 +1,15 @@
 import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
-import { IDrawElement, ILines, IText } from "@/types/types";
+import { IEllipse, IDrawElement, ILines, IText } from "@/types/types";
 import { useContext, useRef, useState } from "react";
-import { Stage, Layer, Rect, Group, Text, Line } from "react-konva";
+import { Stage, Layer, Rect, Group, Text, Line, Ellipse } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
 import rgbHex from "rgb-hex";
 import DrawLines from "../DrawLines/DrawLines";
 import DrawText from "../DrawText/DrawText";
+import DrawEllipse from "../DrawEllipse/DrawEllipse";
 
 export default function Holst() {
   const {
@@ -27,6 +28,7 @@ export default function Holst() {
   } = useContext(CONTEXT);
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
   const [currentText, setCurrentText] = useState<IText | null>(null);
+  const [currentEllipse, setCurrentEllipse] = useState<IEllipse | null>(null);
   const [drawElements, setDrawElements] = useState<IDrawElement[]>([]);
   const isDrawing = useRef(false);
   const layerRef = useRef<Konva.Layer>(null);
@@ -57,7 +59,6 @@ export default function Holst() {
       setColor(`#${rgbHex(rgbColor)}`);
     }
     if (drawMode === MODE.TEXT) {
-      isDrawing.current = true;
       setCurrentText({
         points: [x, y],
         content: text,
@@ -67,6 +68,15 @@ export default function Holst() {
         isCrossText,
         isItalics,
         isBold,
+      });
+    }
+    if (drawMode === MODE.ELLIPSE) {
+      setCurrentEllipse({
+        points: { x, y },
+        color,
+        thickness,
+        strokeWidth: 4,
+        startPosition: { x, y },
       });
     }
   };
@@ -80,36 +90,33 @@ export default function Holst() {
     }
     const stage = e.target.getStage()!;
     const { x, y } = getScaledPoint(stage, scale);
-    if (currentLine) {
+    if (currentLine || currentEllipse) {
       switch (drawMode) {
         case MODE.PENCIL:
           setCurrentLine({
-            ...currentLine,
-            points: [...currentLine.points, x, y],
+            ...currentLine!,
+            points: [...currentLine!.points, x, y],
           });
           break;
         case MODE.LINE:
-          const [x0, y0] = currentLine.points;
+          const [x0, y0] = currentLine!.points;
           setCurrentLine({
-            ...currentLine,
+            ...currentLine!,
             points: [x0, y0, x, y],
           });
           break;
         case MODE.ERASER:
-          currentLine.eraser = true;
+          currentLine!.eraser = true;
           setCurrentLine({
-            ...currentLine,
-            points: [...currentLine.points, x, y],
+            ...currentLine!,
+            points: [...currentLine!.points, x, y],
           });
           break;
-        case MODE.TEXT:
-          if (currentText) {
-            setCurrentText({
-              ...currentText,
-              points: [...currentText.points, x, y],
-            });
-          }
-          break;
+        case MODE.ELLIPSE:
+          setCurrentEllipse({
+            ...currentEllipse!,
+            points: { x, y },
+          });
         default:
           return;
       }
@@ -138,6 +145,16 @@ export default function Holst() {
       ]);
       setCurrentText(null);
     }
+    if (currentEllipse) {
+      setDrawElements([
+        ...drawElements,
+        {
+          type: "ellipse",
+          content: { ...currentEllipse, points: { ...currentEllipse.points } },
+        },
+      ]);
+      setCurrentEllipse(null);
+    }
   };
 
   return (
@@ -157,21 +174,37 @@ export default function Holst() {
             <Group key={i}>
               {item.type === "line" ? (
                 <DrawLines line={item.content as ILines} />
-              ) : (
+              ) : item.type === "text" ? (
                 <DrawText text={item.content as IText} />
-              )}
+              ) : item.type === "ellipse" ? (
+                <DrawEllipse ellipse={item.content as IEllipse} />
+              ) : null}
             </Group>
           ))}
           {currentText && (
             <Text
               text={currentText.content}
               points={currentText.points}
-              x={currentText.points[0]}
-              y={currentText.points[1]}
+              x={currentText.points[0] * scale}
+              y={currentText.points[1] * scale}
               fontSize={currentText.fontSize}
               fontFamily={currentText.fontFamily}
               fill={currentText.color}
               draggable
+            />
+          )}
+          {currentEllipse && (
+            <Ellipse
+              x={currentEllipse.points.x * scale}
+              y={currentEllipse.points.y * scale}
+              radiusX={Math.abs(
+                currentEllipse.points.x - currentEllipse.startPosition.x,
+              )}
+              radiusY={Math.abs(
+                currentEllipse.points.y - currentEllipse.startPosition.y,
+              )}
+              stroke={currentEllipse.color}
+              strokeWidth={currentEllipse.thickness}
             />
           )}
           {currentLine && (

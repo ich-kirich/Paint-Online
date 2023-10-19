@@ -16,9 +16,17 @@ export interface IText {
   isBold: boolean;
 }
 
+export interface IEllipse {
+  points: { x: number; y: number };
+  color: string;
+  strokeWidth: number;
+  startPosition: { x: number; y: number };
+  thickness: number;
+}
+
 export interface IDrawElement {
   type: string;
-  content: ILines | IText;
+  content: ILines | IText | IEllipse;
 }
 
 export interface IContext {
@@ -59,4 +67,8 @@ export interface IDrawTextProps {
 export interface IThicknessProps {
   minValue: number;
   maxValue: number;
+}
+
+export interface IDrawEllipseProps {
+  ellipse: IEllipse;
 }

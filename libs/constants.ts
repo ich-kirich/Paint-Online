@@ -31,6 +31,7 @@ export const MODE = {
   ERASER: "eraser",
   PIPETTE: "pipette",
   TEXT: "text",
+  ELLIPSE: "ellipse",
 };
 
 export const MODE_PANEL = {
@@ -46,7 +47,7 @@ export const FONT_FAMILY = {
   VERDANA: "Verdana",
   TAHOMA: "Tahoma",
   IMPACT: "Impact",
-  PALATINO: "Palatino"
+  PALATINO: "Palatino",
 };
 
 export const CONTEXT = React.createContext({} as IContext);
