@@ -10,14 +10,11 @@ export default function DrawEllipse(props: IDrawEllipseProps) {
   return (
     <Group>
       <Ellipse
-        x={ellipse.points.x * scale}
-        y={ellipse.points.y * scale}
-        radiusX={Math.abs(
-          ellipse.points.x - ellipse.startPosition.x,
-        )}
-        radiusY={Math.abs(
-          ellipse.points.y - ellipse.startPosition.y,
-        )}
+        scale={{ x: scale, y: scale }}
+        x={ellipse.startPosition.x * scale}
+        y={ellipse.startPosition.y * scale}
+        radiusX={Math.abs(ellipse.points.x - ellipse.startPosition.x)}
+        radiusY={Math.abs(ellipse.points.y - ellipse.startPosition.y)}
         stroke={ellipse.color}
         strokeWidth={ellipse.thickness}
       />

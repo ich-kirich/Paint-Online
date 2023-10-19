@@ -1,6 +1,6 @@
 import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import getScaledPoint from "@/libs/utils";
-import { IEllipse, IDrawElement, ILines, IText } from "@/types/types";
+import { IEllipse, IDrawElement, ILines, IText, IRect } from "@/types/types";
 import { useContext, useRef, useState } from "react";
 import { Stage, Layer, Rect, Group, Text, Line, Ellipse } from "react-konva";
 import Konva from "konva";
@@ -10,6 +10,7 @@ import rgbHex from "rgb-hex";
 import DrawLines from "../DrawLines/DrawLines";
 import DrawText from "../DrawText/DrawText";
 import DrawEllipse from "../DrawEllipse/DrawEllipse";
+import DrawRect from "../DrawRect/DrawRect";
 
 export default function Holst() {
   const {
@@ -29,6 +30,7 @@ export default function Holst() {
   const [currentLine, setCurrentLine] = useState<ILines | null>(null);
   const [currentText, setCurrentText] = useState<IText | null>(null);
   const [currentEllipse, setCurrentEllipse] = useState<IEllipse | null>(null);
+  const [currentRect, setCurrentRect] = useState<IRect | null>(null);
   const [drawElements, setDrawElements] = useState<IDrawElement[]>([]);
   const isDrawing = useRef(false);
   const layerRef = useRef<Konva.Layer>(null);
@@ -75,7 +77,14 @@ export default function Holst() {
         points: { x, y },
         color,
         thickness,
-        strokeWidth: 4,
+        startPosition: { x, y },
+      });
+    }
+    if (drawMode === MODE.RECT) {
+      setCurrentRect({
+        points: { x, y },
+        color,
+        thickness,
         startPosition: { x, y },
       });
     }
@@ -90,7 +99,7 @@ export default function Holst() {
     }
     const stage = e.target.getStage()!;
     const { x, y } = getScaledPoint(stage, scale);
-    if (currentLine || currentEllipse) {
+    if (currentLine || currentEllipse || currentRect) {
       switch (drawMode) {
         case MODE.PENCIL:
           setCurrentLine({
@@ -117,6 +126,13 @@ export default function Holst() {
             ...currentEllipse!,
             points: { x, y },
           });
+          break;
+        case MODE.RECT:
+          setCurrentRect({
+            ...currentRect!,
+            points: { x, y },
+          });
+          break;
         default:
           return;
       }
@@ -155,6 +171,16 @@ export default function Holst() {
       ]);
       setCurrentEllipse(null);
     }
+    if (currentRect) {
+      setDrawElements([
+        ...drawElements,
+        {
+          type: "rect",
+          content: { ...currentRect, points: { ...currentRect.points } },
+        },
+      ]);
+      setCurrentRect(null);
+    }
   };
 
   return (
@@ -178,11 +204,14 @@ export default function Holst() {
                 <DrawText text={item.content as IText} />
               ) : item.type === "ellipse" ? (
                 <DrawEllipse ellipse={item.content as IEllipse} />
-              ) : null}
+              ) : item.type === "rect" ? (
+                <DrawRect rect={item.content as IRect} />
+              ): null}
             </Group>
           ))}
           {currentText && (
             <Text
+              scale={{ x: scale, y: scale }}
               text={currentText.content}
               points={currentText.points}
               x={currentText.points[0] * scale}
@@ -195,8 +224,9 @@ export default function Holst() {
           )}
           {currentEllipse && (
             <Ellipse
-              x={currentEllipse.points.x * scale}
-              y={currentEllipse.points.y * scale}
+              scale={{ x: scale, y: scale }}
+              x={currentEllipse.startPosition.x * scale}
+              y={currentEllipse.startPosition.y * scale}
               radiusX={Math.abs(
                 currentEllipse.points.x - currentEllipse.startPosition.x,
               )}
@@ -205,6 +235,17 @@ export default function Holst() {
               )}
               stroke={currentEllipse.color}
               strokeWidth={currentEllipse.thickness}
+            />
+          )}
+          {currentRect && (
+            <Rect
+              scale={{ x: scale, y: scale }}
+              x={currentRect.startPosition.x * scale}
+              y={currentRect.startPosition.y * scale}
+              width={currentRect.points.x - currentRect.startPosition.x}
+              height={currentRect.points.y - currentRect.startPosition.y}
+              stroke={currentRect.color}
+              strokeWidth={currentRect.thickness}
             />
           )}
           {currentLine && (

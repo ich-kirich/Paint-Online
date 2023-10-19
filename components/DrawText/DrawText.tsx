@@ -14,6 +14,7 @@ export default function DrawText(props: IDrawTextProps) {
   return (
     <Group>
       <Text
+        scale={{ x: scale, y: scale }}
         text={text.content}
         x={text.points[0] * scale}
         y={text.points[1] * scale}

@@ -19,14 +19,20 @@ export interface IText {
 export interface IEllipse {
   points: { x: number; y: number };
   color: string;
-  strokeWidth: number;
   startPosition: { x: number; y: number };
   thickness: number;
 }
 
+export interface IRect {
+  points: { x: number; y: number };
+  color: string;
+  thickness: number;
+  startPosition: { x: number; y: number };
+}
+
 export interface IDrawElement {
   type: string;
-  content: ILines | IText | IEllipse;
+  content: ILines | IText | IEllipse | IRect;
 }
 
 export interface IContext {
@@ -71,4 +77,8 @@ export interface IThicknessProps {
 
 export interface IDrawEllipseProps {
   ellipse: IEllipse;
+}
+
+export interface IDrawRectProps {
+  rect: IRect;
 }
