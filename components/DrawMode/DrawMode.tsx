@@ -9,6 +9,7 @@ import ColorizeIcon from "@mui/icons-material/Colorize";
 import TextIncreaseIcon from "@mui/icons-material/TextIncrease";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import RectangleOutlinedIcon from "@mui/icons-material/RectangleOutlined";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import styles from "./DrawMode.module.scss";
 
 export default function DrawMode() {
@@ -92,6 +93,16 @@ export default function DrawMode() {
           {},
         )}
         onClick={onChangeMode(MODE.RECT)}
+      />
+      <FormatColorFillIcon
+        width="16"
+        height="16"
+        className={classnames(
+          styles.mode__tile,
+          { [styles.mode__choose]: drawMode === MODE.FILLING },
+          {},
+        )}
+        onClick={onChangeMode(MODE.FILLING)}
       />
     </Box>
   );

@@ -30,9 +30,14 @@ export interface IRect {
   startPosition: { x: number; y: number };
 }
 
+export interface IFillingFigure {
+  points: number[];
+  color: string;
+}
+
 export interface IDrawElement {
   type: string;
-  content: ILines | IText | IEllipse | IRect;
+  content: ILines | IText | IEllipse | IRect | IFillingFigure;
 }
 
 export interface IContext {
@@ -60,6 +65,11 @@ export interface IContext {
   setIsItalics: Function;
   isBold: boolean;
   setIsBold: Function;
+}
+
+export interface IPixels {
+  color: string;
+  pixels: number[];
 }
 
 export interface IDrawLinesProps {

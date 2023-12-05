@@ -33,6 +33,7 @@ export const MODE = {
   TEXT: "text",
   ELLIPSE: "ellipse",
   RECT: "rect",
+  FILLING: "filling",
 };
 
 export const MODE_PANEL = {
