@@ -253,12 +253,11 @@ export default function Holst() {
                       for (let index = 0; index < points.length; index += 2) {
                         const x = points[index];
                         const y = points[index + 1];
-                        context.fillRect(y, x, 1, 1);
+                        context.fillRect(x, y, 1, 1);
+                        context.fillStyle = item.content.color;
                       }
                       context.fillStrokeShape(shape);
                     }}
-                    stroke={item.content.color}
-                    strokeWidth={1}
                   />
                 ) : null}
               </Group>
