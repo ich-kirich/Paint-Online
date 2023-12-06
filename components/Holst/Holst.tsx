@@ -7,7 +7,7 @@ import {
   ILine,
 } from "@/types/types";
 import { useContext, useRef, useState } from "react";
-import { Stage, Layer, Rect, Group, Shape } from "react-konva";
+import { Stage, Layer, Rect, Group } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
