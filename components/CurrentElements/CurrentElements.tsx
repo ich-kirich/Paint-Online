@@ -20,6 +20,10 @@ export default function CurrentElements(props: ICurrentElementsProps) {
           fontSize={currentText.fontSize}
           fontFamily={currentText.fontFamily}
           fill={currentText.color}
+          textDecoration={currentText.isCrossText ? "line-through" : undefined}
+          fontStyle={`${currentText.isBold ? "bold " : ""}${
+            currentText.isItalics ? "italic" : ""
+          }`}
           draggable
         />
       )}

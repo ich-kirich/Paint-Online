@@ -52,4 +52,12 @@ export const FONT_FAMILY = {
   PALATINO: "Palatino",
 };
 
+export const TYPES_ELEMENTS = {
+  LINE: "line",
+  TEXT: "text",
+  ELLIPSE: "ellipse",
+  RECT: "rect",
+  FILLING: "filling",
+};
+
 export const CONTEXT = React.createContext({} as IContext);

@@ -1,21 +1,16 @@
-import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
+import { CONTEXT, DEFAULT_ERASER, MODE, TYPES_ELEMENTS } from "@/libs/constants";
 import {
   IEllipse,
   IDrawElement,
   IText,
   IRect,
   ILine,
-  IFilling,
 } from "@/types/types";
 import { useContext, useRef, useState } from "react";
 import { Stage, Layer, Rect, Group, Shape } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
-import DrawLines from "../DrawLines/DrawLines";
-import DrawText from "../DrawText/DrawText";
-import DrawEllipse from "../DrawEllipse/DrawEllipse";
-import DrawRect from "../DrawRect/DrawRect";
 import React from "react";
 import { getColorPixel, getFillingPixels, getScaledPoint } from "@/libs/utils";
 import CurrentElements from "../CurrentElements/CurrentElements";
@@ -98,7 +93,7 @@ export default function Holst() {
           setDrawElements([
             ...drawElements,
             {
-              type: "filling",
+              type: TYPES_ELEMENTS.FILLING,
               content: { color: figure.color, points: [...figure.points] },
             },
           ]);
@@ -166,7 +161,7 @@ export default function Holst() {
       setDrawElements([
         ...drawElements,
         {
-          type: "line",
+          type: TYPES_ELEMENTS.LINE,
           content: { ...currentLine, points: [...currentLine.points] },
         },
       ]);
@@ -176,7 +171,7 @@ export default function Holst() {
       setDrawElements([
         ...drawElements,
         {
-          type: "text",
+          type: TYPES_ELEMENTS.TEXT,
           content: { ...currentText, points: [...currentText.points] },
         },
       ]);
@@ -186,7 +181,7 @@ export default function Holst() {
       setDrawElements([
         ...drawElements,
         {
-          type: "ellipse",
+          type: TYPES_ELEMENTS.ELLIPSE,
           content: { ...currentEllipse, points: { ...currentEllipse.points } },
         },
       ]);
@@ -196,7 +191,7 @@ export default function Holst() {
       setDrawElements([
         ...drawElements,
         {
-          type: "rect",
+          type: TYPES_ELEMENTS.RECT,
           content: { ...currentRect, points: { ...currentRect.points } },
         },
       ]);
