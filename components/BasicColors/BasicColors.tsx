@@ -17,38 +17,18 @@ export default function BasicColors() {
     }
   };
 
+  const defaultColors = Object.values(DEFAULT_COLORS);
+
   return (
     <Box className={styles.basic__wrapper}>
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.RED }}
-        onClick={handleClick}
-      />
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.BLUE }}
-        onClick={handleClick}
-      />
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.GREEN }}
-        onClick={handleClick}
-      />
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.BLACK }}
-        onClick={handleClick}
-      />
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.YELLOW }}
-        onClick={handleClick}
-      />
-      <Box
-        className={styles.basic__tile}
-        style={{ backgroundColor: DEFAULT_COLORS.WHITE }}
-        onClick={handleClick}
-      />
+      {defaultColors.map((color, index) => (
+        <Box
+          key={index}
+          className={styles.basic__tile}
+          style={{ backgroundColor: color }}
+          onClick={handleClick}
+        />
+      ))}
     </Box>
   );
 }

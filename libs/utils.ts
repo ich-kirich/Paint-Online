@@ -25,9 +25,7 @@ export function fillingDraw(
   };
   while (toPaint.length > 0) {
     const current = toPaint.pop()!;
-    const id = `${current.x}-${current.y}`
-    // const id = current.x + current.y * imageData.width;
-    
+    const id = `${current.x}-${current.y}`;  
     if (isPaintedSet.has(id)) {
       continue;
     } else {

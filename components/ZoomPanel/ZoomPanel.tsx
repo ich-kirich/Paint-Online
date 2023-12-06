@@ -7,6 +7,7 @@ import styles from "./ZoomPanel.module.scss";
 
 export default function ZoomPanel() {
   const { scale, setScale } = useContext(CONTEXT);
+
   const zoomIn = useCallback(() => {
     if (scale < 3) {
       setScale(0.25);

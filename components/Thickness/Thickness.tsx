@@ -49,7 +49,11 @@ export default function Thickness(props: IThicknessProps) {
       >
         <Box className={styles.thickness__popup}>
           <Slider
-            value={thickness < minValue || thickness > maxValue ? setThickness(minValue) : thickness}
+            value={
+              thickness < minValue || thickness > maxValue
+                ? setThickness(minValue)
+                : thickness
+            }
             onChange={handleChange}
             valueLabelDisplay="auto"
             min={minValue}

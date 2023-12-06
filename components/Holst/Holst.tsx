@@ -16,7 +16,6 @@ import {
   Text,
   Line,
   Ellipse,
-  Path,
   Shape,
 } from "react-konva";
 import Konva from "konva";
@@ -223,7 +222,7 @@ export default function Holst() {
   };
 
   return (
-    <Box className={styles.main__holstWrapper}>
+    <Box className={styles.main__wrapper}>
       <Stage
         width={width * scale}
         height={height * scale}
@@ -249,7 +248,7 @@ export default function Holst() {
                 ) : item.type === "filling" ? (
                   <Shape
                     sceneFunc={(context, shape) => {
-                      const { points } = (item.content as IFillingFigure);
+                      const { points } = item.content as IFillingFigure;
                       for (let index = 0; index < points.length; index += 2) {
                         const x = points[index];
                         const y = points[index + 1];

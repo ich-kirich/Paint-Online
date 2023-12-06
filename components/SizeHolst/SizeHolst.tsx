@@ -10,8 +10,8 @@ export default function SizeHolst() {
     null | (EventTarget & HTMLButtonElement)
   >(null);
   const [isValid, setIsValid] = useState(true);
-  const [enterWidth, setEnterWidth] = useState(width);
-  const [enterHeight, setEnterHeight] = useState(height);
+  const [enterWidth, setEnterWidth] = useState<string | number>(width);
+  const [enterHeight, setEnterHeight] = useState<string | number>(height);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -22,7 +22,7 @@ export default function SizeHolst() {
   };
 
   const handleSave = () => {
-    if (enterWidth >= 0 && enterHeight >= 0) {
+    if (enterWidth > 0 && enterHeight > 0) {
       setWidth(enterWidth);
       setHeight(enterHeight);
       handleClose();
@@ -32,19 +32,29 @@ export default function SizeHolst() {
   };
 
   const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setEnterWidth(value);
-    setIsValid(value >= 0 && enterHeight >= 0);
+    if (Number.parseInt(e.target.value)) {
+      const value = parseInt(e.target.value);
+      setEnterWidth(value);
+      setIsValid(value > 0 && enterHeight > 0);
+    } else {
+      setIsValid(false);
+      setEnterWidth(e.target.value);
+    } 
   };
 
   const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setEnterHeight(value);
-    setIsValid(enterWidth >= 0 && value >= 0);
+    if (Number.parseInt(e.target.value)) {
+      const value = parseInt(e.target.value);
+      setEnterHeight(value);
+      setIsValid(enterWidth > 0 && value > 0);
+    } else {
+      setIsValid(false);
+      setEnterHeight(e.target.value);
+    } 
   };
 
   return (
-    <div>
+    <Box>
       <Button
         onClick={handleClick}
         variant="contained"
@@ -66,9 +76,7 @@ export default function SizeHolst() {
         }}
       >
         <Box className={styles.size__popup}>
-          <Typography variant="h6">
-            Enter width and height:
-          </Typography>
+          <Typography variant="h6">Enter width and height:</Typography>
           <TextField
             label="Width"
             type="number"
@@ -100,6 +108,6 @@ export default function SizeHolst() {
           </Button>
         </Box>
       </Popover>
-    </div>
+    </Box>
   );
 }

@@ -18,6 +18,7 @@ export default function Palette() {
         id="colorPicker"
         value={color}
         onChange={handleColorChange}
+        className={styles.palette}
       />
     </Box>
   );
