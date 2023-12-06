@@ -1,19 +1,45 @@
-import { IPixels } from "@/types/types";
+import { IFilling, IPixels } from "@/types/types";
 import Konva from "konva";
 import { Context } from "konva/lib/Context";
+import { Layer } from "konva/lib/Layer";
+import { Stage } from "konva/lib/Stage";
+import rgbHex from "rgb-hex";
 
 export function getScaledPoint(stage: Konva.Stage, scale: number) {
   const { x, y } = stage.getPointerPosition()!;
   return { x: x / scale, y: y / scale };
 }
 
-export function fillingDraw(
+export function getColorPixel(stage: Stage, layerRef: React.RefObject<Layer>): string {
+  const pointerPosition = stage.getPointerPosition()!;
+  const layer = layerRef.current!;
+  const pixel = layer
+    .getContext()
+    .getImageData(pointerPosition.x, pointerPosition.y, 1, 1).data;
+  const rgbColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+  const resultPixelColor = `#${rgbHex(rgbColor)}`;
+  return resultPixelColor;
+}
+
+export function getFillingPixels(stage: Stage, layerRef: React.RefObject<Layer>, color: string): IFilling {
+  const layerFill = layerRef.current!;
+  const pointerPositionFill = stage.getPointerPosition()!;
+  const context = layerFill.getContext();
+  const figure = fillingDraw(
+    { x: pointerPositionFill.x, y: pointerPositionFill.y },
+    context,
+    color,
+  );
+  return figure;
+}
+
+function fillingDraw(
   pos: { x: number; y: number },
   cx: Context,
   color: string,
 ): {
   color: string;
-  pixels: number[];
+  points: number[];
 } {
   const imageData = cx.getImageData(0, 0, cx.canvas.width, cx.canvas.height);
   const sample = relativePos(pos);
@@ -21,18 +47,18 @@ export function fillingDraw(
   const toPaint = [sample];
   const pixelsFigure: IPixels = {
     color,
-    pixels: [],
+    points: [],
   };
   while (toPaint.length > 0) {
     const current = toPaint.pop()!;
-    const id = `${current.x}-${current.y}`;  
+    const id = `${current.x}-${current.y}`;
     if (isPaintedSet.has(id)) {
       continue;
     } else {
-      pixelsFigure.pixels.push(current!.x, current!.y);
+      pixelsFigure.points.push(current!.x, current!.y);
       isPaintedSet.add(id);
     }
-    
+
     forEachNeighbor(current, function (neighbor: { x: number; y: number }) {
       if (
         neighbor.x >= 0 &&

@@ -2,32 +2,24 @@ import { CONTEXT, DEFAULT_ERASER, MODE } from "@/libs/constants";
 import {
   IEllipse,
   IDrawElement,
-  ILines,
   IText,
   IRect,
-  IFillingFigure,
+  ILine,
+  IFilling,
 } from "@/types/types";
 import { useContext, useRef, useState } from "react";
-import {
-  Stage,
-  Layer,
-  Rect,
-  Group,
-  Text,
-  Line,
-  Ellipse,
-  Shape,
-} from "react-konva";
+import { Stage, Layer, Rect, Group, Shape } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
 import { Box } from "@mui/material";
-import rgbHex from "rgb-hex";
 import DrawLines from "../DrawLines/DrawLines";
 import DrawText from "../DrawText/DrawText";
 import DrawEllipse from "../DrawEllipse/DrawEllipse";
 import DrawRect from "../DrawRect/DrawRect";
 import React from "react";
-import { fillingDraw, getScaledPoint } from "@/libs/utils";
+import { getColorPixel, getFillingPixels, getScaledPoint } from "@/libs/utils";
+import CurrentElements from "../CurrentElements/CurrentElements";
+import DrawElements from "../DrawElements/DrawElements";
 
 export default function Holst() {
   const {
@@ -44,87 +36,76 @@ export default function Holst() {
     isItalics,
     isBold,
   } = useContext(CONTEXT);
-  const [currentLine, setCurrentLine] = useState<ILines | null>(null);
+
+  const [currentLine, setCurrentLine] = useState<ILine | null>(null);
   const [currentText, setCurrentText] = useState<IText | null>(null);
   const [currentEllipse, setCurrentEllipse] = useState<IEllipse | null>(null);
   const [currentRect, setCurrentRect] = useState<IRect | null>(null);
   const [drawElements, setDrawElements] = useState<IDrawElement[]>([]);
-  const isDrawing = useRef(false);
+  const [isDrawing, setIsDrawing] = useState(false);
   const layerRef = useRef<Konva.Layer>(null);
 
   const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
-    const stage = e.target.getStage()!;
-    const { x, y } = getScaledPoint(stage, scale);
-    isDrawing.current = true;
-    switch (drawMode) {
-      case MODE.LINE:
-      case MODE.PENCIL:
-      case MODE.ERASER:
-        setCurrentLine({
-          points: [x, y],
-          color,
-          thickness,
-          eraser: DEFAULT_ERASER,
-        });
-        break;
-      case MODE.PIPETTE:
-        const pointerPosition = stage.getPointerPosition();
-        const layer = layerRef!.current;
-        const pixel = layer!
-          .getContext()
-          .getImageData(pointerPosition!.x, pointerPosition!.y, 1, 1).data;
-        const rgbColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-        setColor(`#${rgbHex(rgbColor)}`);
-        break;
-      case MODE.TEXT:
-        setCurrentText({
-          points: [x, y],
-          content: text,
-          color,
-          fontSize: thickness,
-          fontFamily,
-          isCrossText,
-          isItalics,
-          isBold,
-        });
-        break;
-      case MODE.ELLIPSE:
-        setCurrentEllipse({
-          points: { x, y },
-          color,
-          thickness,
-          startPosition: { x, y },
-        });
-        break;
-      case MODE.RECT:
-        setCurrentRect({
-          points: { x, y },
-          color,
-          thickness,
-          startPosition: { x, y },
-        });
-        break;
-      case MODE.FILLING:
-        const layerFill = layerRef.current;
-        const pointerPositionFill = stage.getPointerPosition();
-        if (pointerPositionFill && layerFill) {
-          const context = layerFill.getContext();
-          const figure = fillingDraw(
-            { x: pointerPositionFill.x, y: pointerPositionFill.y },
-            context,
+    const stage = e.target.getStage();
+    if (stage) {
+      const { x, y } = getScaledPoint(stage, scale);
+      setIsDrawing(true);
+      switch (drawMode) {
+        case MODE.LINE:
+        case MODE.PENCIL:
+        case MODE.ERASER:
+          setCurrentLine({
+            points: [x, y],
             color,
-          );
+            thickness,
+            eraser: DEFAULT_ERASER,
+          });
+          break;
+        case MODE.PIPETTE:
+          const colorPixel = getColorPixel(stage, layerRef);
+          setColor(colorPixel);
+          break;
+        case MODE.TEXT:
+          setCurrentText({
+            points: [x, y],
+            content: text,
+            color,
+            fontSize: thickness,
+            fontFamily,
+            isCrossText,
+            isItalics,
+            isBold,
+          });
+          break;
+        case MODE.ELLIPSE:
+          setCurrentEllipse({
+            points: { x, y },
+            color,
+            thickness,
+            startPosition: { x, y },
+          });
+          break;
+        case MODE.RECT:
+          setCurrentRect({
+            points: { x, y },
+            color,
+            thickness,
+            startPosition: { x, y },
+          });
+          break;
+        case MODE.FILLING:
+          const figure = getFillingPixels(stage, layerRef, color);
           setDrawElements([
             ...drawElements,
             {
               type: "filling",
-              content: { color, points: [...figure.pixels] },
+              content: { color: figure.color, points: [...figure.points] },
             },
           ]);
-        }
-        break;
-      default:
-        return;
+          break;
+        default:
+          return;
+      }
     }
   };
 
@@ -132,9 +113,11 @@ export default function Holst() {
     if (e.evt.buttons === 1 || e.evt.buttons === 2) {
       handleMouseDown(e);
     }
-    if (!isDrawing.current) {
+
+    if (!isDrawing) {
       return;
     }
+
     const stage = e.target.getStage()!;
     const { x, y } = getScaledPoint(stage, scale);
     if (currentLine || currentEllipse || currentRect) {
@@ -178,7 +161,7 @@ export default function Holst() {
   };
 
   const handleMouseUp = () => {
-    isDrawing.current = false;
+    setIsDrawing(false);
     if (currentLine) {
       setDrawElements([
         ...drawElements,
@@ -235,84 +218,13 @@ export default function Holst() {
         <Layer ref={layerRef}>
           <Rect width={width * scale} height={height * scale} fill="white" />
           <Group>
-            {drawElements.map((item: IDrawElement, i: number) => (
-              <Group key={i}>
-                {item.type === "line" ? (
-                  <DrawLines line={item.content as ILines} />
-                ) : item.type === "text" ? (
-                  <DrawText text={item.content as IText} />
-                ) : item.type === "ellipse" ? (
-                  <DrawEllipse ellipse={item.content as IEllipse} />
-                ) : item.type === "rect" ? (
-                  <DrawRect rect={item.content as IRect} />
-                ) : item.type === "filling" ? (
-                  <Shape
-                    sceneFunc={(context, shape) => {
-                      const { points } = item.content as IFillingFigure;
-                      for (let index = 0; index < points.length; index += 2) {
-                        const x = points[index];
-                        const y = points[index + 1];
-                        context.fillRect(x, y, 1, 1);
-                        context.fillStyle = item.content.color;
-                      }
-                      context.fillStrokeShape(shape);
-                    }}
-                  />
-                ) : null}
-              </Group>
-            ))}
-            {currentText && (
-              <Text
-                scale={{ x: scale, y: scale }}
-                text={currentText.content}
-                points={currentText.points}
-                x={currentText.points[0] * scale}
-                y={currentText.points[1] * scale}
-                fontSize={currentText.fontSize}
-                fontFamily={currentText.fontFamily}
-                fill={currentText.color}
-                draggable
-              />
-            )}
-            {currentEllipse && (
-              <Ellipse
-                scale={{ x: scale, y: scale }}
-                x={currentEllipse.startPosition.x * scale}
-                y={currentEllipse.startPosition.y * scale}
-                radiusX={Math.abs(
-                  currentEllipse.points.x - currentEllipse.startPosition.x,
-                )}
-                radiusY={Math.abs(
-                  currentEllipse.points.y - currentEllipse.startPosition.y,
-                )}
-                stroke={currentEllipse.color}
-                strokeWidth={currentEllipse.thickness}
-              />
-            )}
-            {currentRect && (
-              <Rect
-                scale={{ x: scale, y: scale }}
-                x={currentRect.startPosition.x * scale}
-                y={currentRect.startPosition.y * scale}
-                width={currentRect.points.x - currentRect.startPosition.x}
-                height={currentRect.points.y - currentRect.startPosition.y}
-                stroke={currentRect.color}
-                strokeWidth={currentRect.thickness}
-              />
-            )}
-            {currentLine && (
-              <Line
-                scale={{ x: scale, y: scale }}
-                points={currentLine.points}
-                strokeWidth={currentLine.thickness}
-                stroke={currentLine.color}
-                tension={0.5}
-                lineCap="round"
-                globalCompositeOperation={
-                  currentLine.eraser ? "destination-out" : "source-over"
-                }
-              />
-            )}
+            <DrawElements drawElements={drawElements} />
+            <CurrentElements
+              currentText={currentText}
+              currentEllipse={currentEllipse}
+              currentRect={currentRect}
+              currentLine={currentLine}
+            />
           </Group>
         </Layer>
       </Stage>

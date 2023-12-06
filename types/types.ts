@@ -1,4 +1,4 @@
-export interface ILines {
+export interface ILine {
   points: number[];
   color: string;
   thickness: number;
@@ -30,14 +30,14 @@ export interface IRect {
   startPosition: { x: number; y: number };
 }
 
-export interface IFillingFigure {
+export interface IFilling {
   points: number[];
   color: string;
 }
 
 export interface IDrawElement {
   type: string;
-  content: ILines | IText | IEllipse | IRect | IFillingFigure;
+  content: ILine | IText | IEllipse | IRect | IFilling;
 }
 
 export interface IContext {
@@ -69,11 +69,11 @@ export interface IContext {
 
 export interface IPixels {
   color: string;
-  pixels: number[];
+  points: number[];
 }
 
 export interface IDrawLinesProps {
-  line: ILines;
+  line: ILine;
 }
 
 export interface IDrawTextProps {
@@ -91,4 +91,15 @@ export interface IDrawEllipseProps {
 
 export interface IDrawRectProps {
   rect: IRect;
+}
+
+export interface ICurrentElementsProps {
+  currentText: IText | null;
+  currentEllipse: IEllipse | null;
+  currentRect: IRect | null;
+  currentLine: ILine | null;
+}
+
+export interface IDrawElementsProps {
+  drawElements: IDrawElement[];
 }
