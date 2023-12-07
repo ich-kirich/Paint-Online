@@ -12,7 +12,6 @@ export default function Palette() {
 
   return (
     <Box className={styles.palette__wrapper}>
-      <label htmlFor="colorPicker">Select color:</label>
       <input
         type="color"
         id="colorPicker"

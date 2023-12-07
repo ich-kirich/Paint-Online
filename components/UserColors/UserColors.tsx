@@ -47,22 +47,12 @@ export default function UserColors() {
 
   return (
     <Box className={styles.colors__wrapper}>
-      <Box className={styles.color__wrapper}>
-        {userColors.map((item: string, i: number) => (
-          <Box
-            key={i}
-            className={styles.color__tile}
-            style={{ backgroundColor: item }}
-            onClick={handleColorClick}
-          />
-        ))}
-      </Box>
       <Button
         onClick={handleClick}
         variant="contained"
         className={styles.colors__btn}
       >
-        Set your colors
+        Set colors
       </Button>
       <Popover
         open={Boolean(anchorEl)}
@@ -93,6 +83,16 @@ export default function UserColors() {
           ))}
         </Box>
       </Popover>
+      <Box className={styles.color__wrapper}>
+        {userColors.map((item: string, i: number) => (
+          <Box
+            key={i}
+            className={styles.color__tile}
+            style={{ backgroundColor: item }}
+            onClick={handleColorClick}
+          />
+        ))}
+      </Box>
     </Box>
   );
 }

@@ -92,7 +92,6 @@ export default function MainPage() {
   return (
     <CONTEXT.Provider value={contextValue}>
       <main className={styles.main__wrapper}>
-        <h1>Paint Online</h1>
         <DrawPanel />
         <Holst />
       </main>

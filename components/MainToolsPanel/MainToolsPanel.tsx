@@ -11,13 +11,19 @@ import styles from "./MainToolsPanel.module.scss";
 export default function MainToolsPanel() {
   return (
     <Box className={styles.panel__wrapper}>
-      <UserColors />
-      <BasicColors />
-      <Palette />
+      <Box className={styles.panel__tool}>
+        <UserColors />
+        <BasicColors />
+        <Palette />
+      </Box>
       <DrawMode />
-      <ZoomPanel />
-      <SizeHolst />
-      <Thickness minValue={1} maxValue={100} />
+      <Box className={styles.panel__size}>
+        <ZoomPanel />
+        <Box className={styles.size__tool}>
+          <SizeHolst />
+          <Thickness minValue={1} maxValue={100} />
+        </Box>
+      </Box>
     </Box>
   );
 }

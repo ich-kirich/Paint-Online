@@ -2,7 +2,28 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 20px;
   border: 1px solid #000;
   background-color: #fdefef;
+}
+
+.panel__tool {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 20px;
+  border-right: 1px solid #000;
+}
+
+.panel__size {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.size__tool {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 20px;
 }

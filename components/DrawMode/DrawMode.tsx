@@ -15,6 +15,9 @@ import styles from "./DrawMode.module.scss";
 export default function DrawMode() {
   const { drawMode, setDrawMode, setModePanel } = useContext(CONTEXT);
 
+  const widthIcon = "10";
+  const heightIcon = "10";
+
   const onChangeMode = (mode: string) => () => {
     setDrawMode(mode);
     if (mode === MODE.TEXT) {
@@ -25,8 +28,8 @@ export default function DrawMode() {
   return (
     <Box className={styles.mode__wrapper}>
       <CreateIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         onClick={onChangeMode(MODE.PENCIL)}
         className={classnames(
           styles.mode__tile,
@@ -35,8 +38,8 @@ export default function DrawMode() {
         )}
       />
       <HorizontalRuleIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.LINE },
@@ -45,8 +48,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.LINE)}
       />
       <FormatColorResetIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.ERASER },
@@ -55,8 +58,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.ERASER)}
       />
       <ColorizeIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.PIPETTE },
@@ -65,8 +68,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.PIPETTE)}
       />
       <TextIncreaseIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.TEXT },
@@ -75,8 +78,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.TEXT)}
       />
       <CircleOutlinedIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.ELLIPSE },
@@ -85,8 +88,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.ELLIPSE)}
       />
       <RectangleOutlinedIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.RECT },
@@ -95,8 +98,8 @@ export default function DrawMode() {
         onClick={onChangeMode(MODE.RECT)}
       />
       <FormatColorFillIcon
-        width="16"
-        height="16"
+        width={widthIcon}
+        height={heightIcon}
         className={classnames(
           styles.mode__tile,
           { [styles.mode__choose]: drawMode === MODE.FILLING },
