@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import BasicColors from "../BasicColors/BasicColors";
 import DrawMode from "../DrawMode/DrawMode";
 import Palette from "../Palette/Palette";
+import SavePicture from "../SavePicture/SavePicture";
 import SizeHolst from "../SizeHolst/SizeHolst";
 import Thickness from "../Thickness/Thickness";
 import UserColors from "../UserColors/UserColors";
@@ -22,6 +23,9 @@ export default function MainToolsPanel() {
         <Box className={styles.size__tool}>
           <SizeHolst />
           <Thickness minValue={1} maxValue={100} />
+        </Box>
+        <Box className={styles.size__tool}>
+          <SavePicture />
         </Box>
       </Box>
     </Box>

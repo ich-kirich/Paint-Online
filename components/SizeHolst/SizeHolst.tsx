@@ -22,35 +22,37 @@ export default function SizeHolst() {
   };
 
   const handleSave = () => {
-    if (enterWidth > 0 && enterHeight > 0) {
-      setWidth(enterWidth);
-      setHeight(enterHeight);
-      handleClose();
-    } else {
-      setIsValid(false);
+    if (typeof enterWidth === "number" && typeof enterHeight === "number") {
+      if (enterWidth > 0 && enterHeight > 0) {
+        setWidth(enterWidth);
+        setHeight(enterHeight);
+        handleClose();
+      } else {
+        setIsValid(false);
+      }
     }
   };
 
   const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number.parseInt(e.target.value)) {
+    if (Number.parseInt(e.target.value) && typeof enterHeight === "number") {
       const value = parseInt(e.target.value);
       setEnterWidth(value);
       setIsValid(value > 0 && enterHeight > 0);
     } else {
       setIsValid(false);
       setEnterWidth(e.target.value);
-    } 
+    }
   };
 
   const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number.parseInt(e.target.value)) {
+    if (Number.parseInt(e.target.value) && typeof enterWidth === "number") {
       const value = parseInt(e.target.value);
       setEnterHeight(value);
       setIsValid(enterWidth > 0 && value > 0);
     } else {
       setIsValid(false);
       setEnterHeight(e.target.value);
-    } 
+    }
   };
 
   return (

@@ -8,7 +8,8 @@ import {
   MODE,
   MODE_PANEL,
 } from "@/libs/constants";
-import { useState, useMemo } from "react";
+import Konva from "konva";
+import { useState, useMemo, useRef } from "react";
 import DrawPanel from "../DrawPanel/DrawPanel";
 import Holst from "../Holst/Holst";
 import styles from "./MainPage.module.scss";
@@ -30,6 +31,7 @@ export default function MainPage() {
   const [isCrossText, setIsCrossText] = useState(false);
   const [isItalics, setIsItalics] = useState(false);
   const [isBold, setIsBold] = useState(false);
+  const stageRef = useRef<Konva.Stage | null>(null);
 
   const onChangeScale = (delta: number) => {
     setSelectedScale(selectedScale + delta);
@@ -61,6 +63,7 @@ export default function MainPage() {
       setIsItalics,
       isBold,
       setIsBold,
+      stageRef
     }),
     [
       selectedColor,
@@ -87,6 +90,7 @@ export default function MainPage() {
       setIsItalics,
       isBold,
       setIsBold,
+      stageRef
     ],
   );
   return (

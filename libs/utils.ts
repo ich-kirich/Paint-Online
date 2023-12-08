@@ -3,6 +3,7 @@ import Konva from "konva";
 import { Context } from "konva/lib/Context";
 import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
+import { MutableRefObject } from "react";
 import rgbHex from "rgb-hex";
 
 export function getScaledPoint(stage: Konva.Stage, scale: number) {
@@ -31,6 +32,21 @@ export function getFillingPixels(stage: Stage, layerRef: React.RefObject<Layer>,
     color,
   );
   return figure;
+}
+
+export function validateFileName(fileName: string) {
+  const regex = /^[\/\w\-. ]+$/;
+  return regex.test(fileName);
+};
+
+export function saveFile(stageRef: MutableRefObject<Stage | null>, nameFile: string, selectedType: string) {
+  const dataURLWebp = stageRef.current!.toDataURL({
+    pixelRatio: 2,
+  });
+  const linkW = document.createElement("a");
+  linkW.href = dataURLWebp;
+  linkW.download = `${nameFile}.${selectedType}`;
+  linkW.click();
 }
 
 function fillingDraw(

@@ -1,4 +1,4 @@
-import { TYPES_ELEMENTS } from "@/libs/constants";
+import { CONTEXT, TYPES_ELEMENTS } from "@/libs/constants";
 import {
   IDrawElementsProps,
   ILine,
@@ -8,14 +8,18 @@ import {
   IRect,
   IDrawElement,
 } from "@/types/types";
-import { Group, Shape } from "react-konva";
+import React from "react";
+import { useContext } from "react";
+import { Group, Shape, Image } from "react-konva";
 import DrawEllipse from "../DrawEllipse/DrawEllipse";
 import DrawLines from "../DrawLines/DrawLines";
 import DrawRect from "../DrawRect/DrawRect";
 import DrawText from "../DrawText/DrawText";
 
-export default function DrawElements(props: IDrawElementsProps) {
+const DrawElements = React.memo((props: IDrawElementsProps) => {
   const { drawElements } = props;
+  const { scale } = useContext(CONTEXT);
+
   return (
     <Group>
       {drawElements.map((item: IDrawElement, i: number) => (
@@ -33,6 +37,7 @@ export default function DrawElements(props: IDrawElementsProps) {
               case TYPES_ELEMENTS.FILLING:
                 return (
                   <Shape
+                    scale={{ x: scale, y: scale }}
                     sceneFunc={(context, shape) => {
                       const { points } = item.content as IFilling;
                       for (let index = 0; index < points.length; index += 2) {
@@ -53,4 +58,6 @@ export default function DrawElements(props: IDrawElementsProps) {
       ))}
     </Group>
   );
-}
+});
+
+export default DrawElements;

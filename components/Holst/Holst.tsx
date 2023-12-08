@@ -1,11 +1,10 @@
-import { CONTEXT, DEFAULT_ERASER, MODE, TYPES_ELEMENTS } from "@/libs/constants";
 import {
-  IEllipse,
-  IDrawElement,
-  IText,
-  IRect,
-  ILine,
-} from "@/types/types";
+  CONTEXT,
+  DEFAULT_ERASER,
+  MODE,
+  TYPES_ELEMENTS,
+} from "@/libs/constants";
+import { IEllipse, IDrawElement, IText, IRect, ILine } from "@/types/types";
 import { useContext, useRef, useState } from "react";
 import { Stage, Layer, Rect, Group } from "react-konva";
 import Konva from "konva";
@@ -16,7 +15,7 @@ import { getColorPixel, getFillingPixels, getScaledPoint } from "@/libs/utils";
 import CurrentElements from "../CurrentElements/CurrentElements";
 import DrawElements from "../DrawElements/DrawElements";
 
-export default function Holst() {
+const Holst = React.memo(() => {
   const {
     color,
     setColor,
@@ -30,6 +29,7 @@ export default function Holst() {
     isCrossText,
     isItalics,
     isBold,
+    stageRef,
   } = useContext(CONTEXT);
 
   const [currentLine, setCurrentLine] = useState<ILine | null>(null);
@@ -209,20 +209,21 @@ export default function Holst() {
         onMouseup={handleMouseUp}
         onMouseLeave={handleMouseUp}
         className={styles.main__holst}
+        ref={stageRef}
       >
         <Layer ref={layerRef}>
           <Rect width={width * scale} height={height * scale} fill="white" />
-          <Group>
-            <DrawElements drawElements={drawElements} />
-            <CurrentElements
-              currentText={currentText}
-              currentEllipse={currentEllipse}
-              currentRect={currentRect}
-              currentLine={currentLine}
-            />
-          </Group>
+          <DrawElements drawElements={drawElements} />
+          <CurrentElements
+            currentText={currentText}
+            currentEllipse={currentEllipse}
+            currentRect={currentRect}
+            currentLine={currentLine}
+          />
         </Layer>
       </Stage>
     </Box>
   );
-}
+});
+
+export default Holst;

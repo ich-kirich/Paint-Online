@@ -60,4 +60,12 @@ export const TYPES_ELEMENTS = {
   FILLING: "filling",
 };
 
+export const TYPES_FILE = {
+  PNG: "png",
+  JPG: "jpg",
+  JPEG: "jpeg",
+  PDF: "pdf",
+  WEBP: "webp",
+};
+
 export const CONTEXT = React.createContext({} as IContext);

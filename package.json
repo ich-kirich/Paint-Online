@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prod": "next export"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -19,18 +20,24 @@
     "@types/react": "18.2.23",
     "@types/react-dom": "18.2.8",
     "canvas": "^2.11.2",
+    "canvg": "^4.0.1",
     "classnames": "^2.3.2",
     "eslint-config-next": "13.5.3",
+    "jspdf": "^2.5.1",
     "konva": "^9.2.1",
     "next": "13.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-konva": "^18.2.10",
+    "react-konva-to-svg": "^1.0.2",
     "rgb-hex": "^4.1.0",
     "styled-components": "^5.3.11",
-    "typescript": "5.2.2"
+    "svg-to-jsx": "^1.0.4",
+    "typescript": "5.2.2",
+    "vue-konva-to-svg": "^1.0.0"
   },
   "devDependencies": {
+    "babel-jest": "^29.7.0",
     "eslint": "^8.50.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",

@@ -1,3 +1,6 @@
+import Konva from "konva";
+import { MutableRefObject } from "react";
+
 export interface ILine {
   points: number[];
   color: string;
@@ -65,6 +68,7 @@ export interface IContext {
   setIsItalics: Function;
   isBold: boolean;
   setIsBold: Function;
+  stageRef: MutableRefObject<Konva.Stage | null>;
 }
 
 export interface IPixels {
