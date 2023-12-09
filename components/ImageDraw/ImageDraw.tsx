@@ -1,4 +1,10 @@
-import { CONTEXT, DEFAULT_COLOR_RESIZE, DEFAULT_SIZE_IMAGE, DEFAULT_STROKE_RESIZE, MODE } from "@/libs/constants";
+import {
+  CONTEXT,
+  DEFAULT_COLOR_RESIZE,
+  DEFAULT_SIZE_IMAGE,
+  DEFAULT_STROKE_RESIZE,
+  MODE,
+} from "@/libs/constants";
 import { IImageDrawProps } from "@/types/types";
 import Konva from "konva";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -39,7 +45,7 @@ export default function ImageDraw(props: IImageDrawProps) {
 
   useEffect(() => {
     setImageUrl("");
-  },[])
+  }, []);
 
   return (
     <Group>

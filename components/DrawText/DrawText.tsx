@@ -22,7 +22,6 @@ export default function DrawText(props: IDrawTextProps) {
         fontFamily={text.fontFamily}
         fill={text.color}
         draggable={drawMode === MODE.CURSOR}
-        onDblClick={() => (text.content = "")}
         textDecoration={text.isCrossText ? "line-through" : undefined}
         fontStyle={fontStyle}
       />
