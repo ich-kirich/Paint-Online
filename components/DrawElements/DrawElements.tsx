@@ -7,6 +7,7 @@ import {
   IFilling,
   IRect,
   IDrawElement,
+  IImage,
 } from "@/types/types";
 import React from "react";
 import { useContext } from "react";
@@ -15,6 +16,7 @@ import DrawEllipse from "../DrawEllipse/DrawEllipse";
 import DrawLines from "../DrawLines/DrawLines";
 import DrawRect from "../DrawRect/DrawRect";
 import DrawText from "../DrawText/DrawText";
+import ImageDraw from "../ImageDraw/ImageDraw";
 
 const DrawElements = React.memo((props: IDrawElementsProps) => {
   const { drawElements } = props;
@@ -39,16 +41,20 @@ const DrawElements = React.memo((props: IDrawElementsProps) => {
                   <Shape
                     scale={{ x: scale, y: scale }}
                     sceneFunc={(context, shape) => {
-                      const { points } = item.content as IFilling;
+                      const { points, color } = item.content as IFilling;
                       for (let index = 0; index < points.length; index += 2) {
                         const x = points[index];
                         const y = points[index + 1];
                         context.fillRect(x, y, 1, 1);
-                        context.fillStyle = item.content.color;
+                        context.fillStyle = color;
                       }
                       context.fillStrokeShape(shape);
                     }}
                   />
+                );
+              case TYPES_ELEMENTS.IMAGE:
+                return (
+                  <ImageDraw imageUrl={(item.content as IImage).image} />
                 );
               default:
                 return null;

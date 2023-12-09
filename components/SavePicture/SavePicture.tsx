@@ -45,7 +45,7 @@ export default function SavePicture() {
     setEnterName(e.target.value);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (validateFileName(enterName)) {
       if (stageRef) {
         switch (selectedType) {
@@ -66,7 +66,7 @@ export default function SavePicture() {
               Number(stageRef.current!.width),
               Number(stageRef.current!.height),
             );
-            pdf.save("stage.pdf");
+            pdf.save(`${enterName}.${TYPES_FILE.PDF}`);
             break;
           default:
             break;

@@ -49,6 +49,12 @@ export function saveFile(stageRef: MutableRefObject<Stage | null>, nameFile: str
   linkW.click();
 }
 
+export function validateUrl(url: string) {
+  const image = new Image();
+  image.src = url;
+  return image.complete && image.naturalWidth > 0;
+}
+
 function fillingDraw(
   pos: { x: number; y: number },
   cx: Context,

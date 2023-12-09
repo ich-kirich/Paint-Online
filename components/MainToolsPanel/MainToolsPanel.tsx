@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import BasicColors from "../BasicColors/BasicColors";
 import DrawMode from "../DrawMode/DrawMode";
+import ImportFile from "../ImportFile/ImportFile";
 import Palette from "../Palette/Palette";
 import SavePicture from "../SavePicture/SavePicture";
 import SizeHolst from "../SizeHolst/SizeHolst";
@@ -26,6 +27,7 @@ export default function MainToolsPanel() {
         </Box>
         <Box className={styles.size__tool}>
           <SavePicture />
+          <ImportFile />
         </Box>
       </Box>
     </Box>

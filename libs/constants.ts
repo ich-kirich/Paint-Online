@@ -58,6 +58,7 @@ export const TYPES_ELEMENTS = {
   ELLIPSE: "ellipse",
   RECT: "rect",
   FILLING: "filling",
+  IMAGE: "image",
 };
 
 export const TYPES_FILE = {
@@ -67,5 +68,16 @@ export const TYPES_FILE = {
   PDF: "pdf",
   WEBP: "webp",
 };
+
+export const DEFAULT_SIZE_IMAGE = {
+  HEIGHT: 200,
+  WIDTH: 200,
+}
+
+export const DEFAULT_COLOR_RESIZE = "#ffffff";
+
+export const DEFAULT_STROKE_RESIZE = "#000000";
+
+export const DEFAULT_SCALE = 1;
 
 export const CONTEXT = React.createContext({} as IContext);

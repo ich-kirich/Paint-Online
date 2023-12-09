@@ -38,9 +38,13 @@ export interface IFilling {
   color: string;
 }
 
+export interface IImage {
+  image: string;
+}
+
 export interface IDrawElement {
   type: string;
-  content: ILine | IText | IEllipse | IRect | IFilling;
+  content: ILine | IText | IEllipse | IRect | IFilling | IImage;
 }
 
 export interface IContext {
@@ -69,6 +73,8 @@ export interface IContext {
   isBold: boolean;
   setIsBold: Function;
   stageRef: MutableRefObject<Konva.Stage | null>;
+  imageUrl: string;
+  setImageUrl: Function;
 }
 
 export interface IPixels {
@@ -106,4 +112,8 @@ export interface ICurrentElementsProps {
 
 export interface IDrawElementsProps {
   drawElements: IDrawElement[];
+}
+
+export interface IImageDrawProps {
+  imageUrl: string;
 }

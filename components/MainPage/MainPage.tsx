@@ -1,6 +1,7 @@
 import {
   CONTEXT,
   DEFAULT_COLOR,
+  DEFAULT_SCALE,
   DEFAULT_SIZE_HOLST,
   DEFAULT_TEXT,
   DEFAULT_THICKNESS,
@@ -20,7 +21,7 @@ export default function MainPage() {
     DEFAULT_SIZE_HOLST.HEIGHT,
   );
   const [selectedWidth, setSelectedWidth] = useState(DEFAULT_SIZE_HOLST.WIDTH);
-  const [selectedScale, setSelectedScale] = useState(1);
+  const [selectedScale, setSelectedScale] = useState(DEFAULT_SCALE);
   const [selectedDrawMode, setSelectedDrawMode] = useState(MODE.PENCIL);
   const [selectedModePanel, setSelectedModePanel] = useState(MODE_PANEL.MAIN);
   const [selectedThickness, setSelectedThickness] = useState(DEFAULT_THICKNESS);
@@ -31,6 +32,7 @@ export default function MainPage() {
   const [isCrossText, setIsCrossText] = useState(false);
   const [isItalics, setIsItalics] = useState(false);
   const [isBold, setIsBold] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const stageRef = useRef<Konva.Stage | null>(null);
 
   const onChangeScale = (delta: number) => {
@@ -63,7 +65,9 @@ export default function MainPage() {
       setIsItalics,
       isBold,
       setIsBold,
-      stageRef
+      stageRef,
+      imageUrl,
+      setImageUrl,
     }),
     [
       selectedColor,
@@ -90,7 +94,9 @@ export default function MainPage() {
       setIsItalics,
       isBold,
       setIsBold,
-      stageRef
+      stageRef,
+      imageUrl,
+      setImageUrl,
     ],
   );
   return (

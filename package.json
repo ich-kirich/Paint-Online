@@ -34,6 +34,7 @@
     "styled-components": "^5.3.11",
     "svg-to-jsx": "^1.0.4",
     "typescript": "5.2.2",
+    "use-image": "^1.1.1",
     "vue-konva-to-svg": "^1.0.0"
   },
   "devDependencies": {

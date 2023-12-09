@@ -5,7 +5,7 @@ import {
   TYPES_ELEMENTS,
 } from "@/libs/constants";
 import { IEllipse, IDrawElement, IText, IRect, ILine } from "@/types/types";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Rect, Group } from "react-konva";
 import Konva from "konva";
 import styles from "./Holst.module.scss";
@@ -30,6 +30,7 @@ const Holst = React.memo(() => {
     isItalics,
     isBold,
     stageRef,
+    imageUrl,
   } = useContext(CONTEXT);
 
   const [currentLine, setCurrentLine] = useState<ILine | null>(null);
@@ -198,6 +199,16 @@ const Holst = React.memo(() => {
       setCurrentRect(null);
     }
   };
+
+  useEffect(() => {
+    setDrawElements([
+      ...drawElements,
+      {
+        type: TYPES_ELEMENTS.IMAGE,
+        content: { image: imageUrl },
+      },
+    ]);
+  }, [imageUrl]);
 
   return (
     <Box className={styles.main__wrapper}>
