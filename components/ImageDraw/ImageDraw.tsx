@@ -1,4 +1,4 @@
-import { CONTEXT, DEFAULT_COLOR_RESIZE, DEFAULT_SIZE_IMAGE, DEFAULT_STROKE_RESIZE } from "@/libs/constants";
+import { CONTEXT, DEFAULT_COLOR_RESIZE, DEFAULT_SIZE_IMAGE, DEFAULT_STROKE_RESIZE, MODE } from "@/libs/constants";
 import { IImageDrawProps } from "@/types/types";
 import Konva from "konva";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import useImage from "use-image";
 
 export default function ImageDraw(props: IImageDrawProps) {
   const { imageUrl } = props;
-  const { scale, setImageUrl } = useContext(CONTEXT);
+  const { scale, setImageUrl, drawMode } = useContext(CONTEXT);
   const [image] = useImage(imageUrl);
   const [imageSize, setImageSize] = useState({
     width: DEFAULT_SIZE_IMAGE.WIDTH,
@@ -53,7 +53,7 @@ export default function ImageDraw(props: IImageDrawProps) {
             ref={imageRef}
             width={imageSize.width}
             height={imageSize.height}
-            draggable
+            draggable={drawMode === MODE.CURSOR}
             onDragMove={handleImageDragMove}
           />
           <Rect
@@ -64,7 +64,7 @@ export default function ImageDraw(props: IImageDrawProps) {
             height={10}
             fill={DEFAULT_COLOR_RESIZE}
             stroke={DEFAULT_STROKE_RESIZE}
-            draggable
+            draggable={drawMode === MODE.CURSOR}
             onDragMove={handleCornerDragMove}
             ref={rectRef}
           />

@@ -1,11 +1,11 @@
-import { CONTEXT } from "@/libs/constants";
+import { CONTEXT, MODE } from "@/libs/constants";
 import { IDrawTextProps } from "@/types/types";
 import { useContext } from "react";
 import { Group, Text } from "react-konva";
 
 export default function DrawText(props: IDrawTextProps) {
   const { text } = props;
-  const { scale } = useContext(CONTEXT);
+  const { scale, drawMode } = useContext(CONTEXT);
 
   const fontStyle = `${text.isBold ? "bold " : ""}${
     text.isItalics ? "italic" : ""
@@ -21,7 +21,7 @@ export default function DrawText(props: IDrawTextProps) {
         fontSize={text.fontSize}
         fontFamily={text.fontFamily}
         fill={text.color}
-        draggable
+        draggable={drawMode === MODE.CURSOR}
         onDblClick={() => (text.content = "")}
         textDecoration={text.isCrossText ? "line-through" : undefined}
         fontStyle={fontStyle}

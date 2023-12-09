@@ -34,6 +34,7 @@ export const MODE = {
   ELLIPSE: "ellipse",
   RECT: "rect",
   FILLING: "filling",
+  CURSOR: "cursor",
 };
 
 export const MODE_PANEL = {
@@ -72,7 +73,7 @@ export const TYPES_FILE = {
 export const DEFAULT_SIZE_IMAGE = {
   HEIGHT: 200,
   WIDTH: 200,
-}
+};
 
 export const DEFAULT_COLOR_RESIZE = "#ffffff";
 
