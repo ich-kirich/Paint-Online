@@ -7,3 +7,6 @@ It's paint online with some of the features of real paint and more
 ***
 ## Technology stack
 - Next.js, React.js, Typescript, Scss, Material UI, Eslint, Prettier, Normalize CSS, Classnames, Rgb-Hex, React-konva, Konva
+***
+## Deploy
+- https://ich-kirich.github.io/Paint-Online/
